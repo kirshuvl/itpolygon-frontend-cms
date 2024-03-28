@@ -1,0 +1,35 @@
+{
+    "name": "itpolygon-frontend-cms",
+    "version": "0.0.0",
+    "private": "true",
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "start": "vite",
+        "docker": "vite --host 0.0.0.0",
+        "lint": "npm run lint:code && stylelint **/*.{scss,css}",
+        "lint:code": "npx @biomejs/biome lint src --log-kind=compact --verbose",
+        "lint:code:fix": "npx @biomejs/biome lint src --apply-unsafe --log-kind=compact --verbose",
+        "lint:styles": "stylelint **/*.{scss,css}",
+        "lint:styles:fix": "stylelint **/*.{scss,css} --fix"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.6.3",
+        "clsx": "^2.1.0",
+        "sass": "^1.72.0",
+        "solid-devtools": "^0.29.3",
+        "stylelint": "^16.3.1",
+        "stylelint-config-standard-scss": "^13.0.0",
+        "stylelint-order": "^6.0.4",
+        "stylelint-scss": "^6.2.1",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.11",
+        "vite-plugin-solid": "^2.8.2"
+    },
+    "dependencies": {
+        "itpolygon-ui-dev": "latest",
+        "solid-js": "^1.8.11"
+    }
+}
