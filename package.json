@@ -18,6 +18,7 @@
     "devDependencies": {
         "@biomejs/biome": "1.6.3",
         "clsx": "^2.1.0",
+        "itpolygon-ui-dev": "^0.0.6",
         "sass": "^1.72.0",
         "solid-devtools": "^0.29.3",
         "stylelint": "^16.3.1",
@@ -29,7 +30,11 @@
         "vite-plugin-solid": "^2.8.2"
     },
     "dependencies": {
-        "itpolygon-ui-dev": "latest",
-        "solid-js": "^1.8.11"
+        "@solidjs/router": "^0.13.1",
+        "axios": "^1.6.8",
+        "jwt-decode": "^4.0.0",
+        "solid-form-handler": "^1.2.3",
+        "solid-js": "^1.8.11",
+        "yup": "^1.4.0"
     }
 }

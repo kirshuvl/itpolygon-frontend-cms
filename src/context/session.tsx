@@ -134,6 +134,6 @@ export const SessionProvider: ParentComponent = (props) => {
     return <SessionStateContext.Provider value={value}>{props.children}</SessionStateContext.Provider>
 }
 
-export function useSessionStateContext() {
-    return useContext(SessionStateContext) ?? false
+export function useSessionStateContext(): SessionStateContextType {
+    return useContext(SessionStateContext)!
 }
