@@ -6,6 +6,8 @@ import { Footer } from '../../../widgets/Footer'
 import { Header } from '../../../widgets/Header'
 import styles from './MainLayout.module.scss'
 
+import { DashboardProvider } from '../../../context/dashboard'
+
 export const MainLayout: ParentComponent = (props) => {
     const { isAuthenticated } = useSessionStateContext()
     const navigate = useNavigate()
@@ -16,12 +18,14 @@ export const MainLayout: ParentComponent = (props) => {
         }
     })
     return (
-        <div class="container">
-            <div class={clsx(styles.content)}>
-                <Header />
-                <div class={clsx(styles.main)}>{props.children}</div>
-                <Footer />
+        <DashboardProvider>
+            <div class="container">
+                <div class={clsx(styles.content)}>
+                    <Header />
+                    <div class={clsx(styles.main)}>{props.children}</div>
+                    <Footer />
+                </div>
             </div>
-        </div>
+        </DashboardProvider>
     )
 }

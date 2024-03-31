@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import type { Component } from 'solid-js'
-
 import styles from './DashboardScreen.module.scss'
+
+import { TeacherGroupsBlock } from '../../widgets/GroupBlock'
 
 export const DashboardScreen: Component = () => {
     return (
@@ -16,7 +17,7 @@ export const DashboardScreen: Component = () => {
             </div>
             <div class={clsx(styles.column, styles.right)}>
                 <div class={clsx(styles.card)}>
-                    <div class={clsx(styles.skeleton)}>Временный блок</div>
+                    <TeacherGroupsBlock />
                 </div>
                 <div class={clsx(styles.card)}>
                     <div class={clsx(styles.skeleton)}>Временный блок</div>
