@@ -4,17 +4,17 @@ import { debugMessage } from '../../utils/defugMessage'
 import { axiosPrivate } from '../api'
 
 export const apiGroups = {
-    getTeacherGroups: async (): Promise<Group[]> => {
+    getGroups: async (): Promise<Group[]> => {
         try {
             const response = await axiosPrivate.get('/api/v1/cms/groups/')
 
             return response.data
         } catch (error) {
-            debugMessage(`[getTeacherGroups] ${error}`)
+            debugMessage(`[getGroups] ${error}`)
             throw error
         }
     },
-    createTeacherGroup: async ({ title }: { title: string }): Promise<Group> => {
+    createGroup: async ({ title }: { title: string }): Promise<Group> => {
         try {
             const response = await axiosPrivate.post(
                 '/api/v1/cms/groups/',
@@ -29,7 +29,7 @@ export const apiGroups = {
             throw error
         }
     },
-    updateTeacherGroup: async ({ groupId, title }: { groupId: number; title: string }): Promise<Group> => {
+    updateGroup: async ({ groupId, title }: { groupId: number; title: string }): Promise<Group> => {
         try {
             const response = await axiosPrivate.patch(
                 `/api/v1/cms/groups/${groupId}`,
