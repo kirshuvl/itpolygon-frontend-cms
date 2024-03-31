@@ -55,40 +55,39 @@ export const GroupCardUpdateModal: Component<GroupCardModalUpdate> = (props) => 
     }
 
     return (
-        <>
-            <Modal
-                isModalOpen={props.isModalOpen}
-                setIsModalOpen={props.setIsModalOpen}
-                header={
-                    <TitleBlock
-                        title="Редактировать группу"
-                        buttons={
-                            <>
-                                <ActionButton onClick={closeModal} icon={IconClose} />
-                            </>
-                        }
-                    />
-                }
-                footer={
-                    <>
-                        <Button
-                            onClick={() => submit()}
-                            value={props.isGroupUpdating() ? 'Сохраняем...' : 'Сохранить'}
-                            size="F"
-                            loading={props.isGroupUpdating()}
-                            disabled={formHandler.isFormInvalid()}
-                        />
-                        <Button value="Отмена" size="F" onClick={closeModal} variant="secondary" outline />
-                    </>
-                }
-            >
-                <InputField
-                    value={props.group.title}
-                    name="title"
-                    formHandler={formHandler}
-                    placeholder="Название группы"
+        <Modal
+            block={!formHandler.formHasChanges()}
+            isModalOpen={props.isModalOpen}
+            setIsModalOpen={props.setIsModalOpen}
+            header={
+                <TitleBlock
+                    title="Редактировать группу"
+                    buttons={
+                        <>
+                            <ActionButton onClick={closeModal} icon={IconClose} />
+                        </>
+                    }
                 />
-            </Modal>
-        </>
+            }
+            footer={
+                <>
+                    <Button
+                        onClick={() => submit()}
+                        value={props.isGroupUpdating() ? 'Сохраняем...' : 'Сохранить'}
+                        size="F"
+                        loading={props.isGroupUpdating()}
+                        disabled={formHandler.isFormInvalid()}
+                    />
+                    <Button value="Отмена" size="F" onClick={closeModal} variant="secondary" outline />
+                </>
+            }
+        >
+            <InputField
+                value={props.group.title}
+                name="title"
+                formHandler={formHandler}
+                placeholder="Название группы"
+            />
+        </Modal>
     )
 }
