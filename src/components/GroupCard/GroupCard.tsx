@@ -7,6 +7,7 @@ import styles from './GroupCard.module.scss'
 
 import { ActionButton } from 'itpolygon-ui-dev'
 import { IconPencil } from 'itpolygon-ui-dev'
+import { GroupCardUpdateModal } from './ModalUpdateGroup/GroupCardUpdate.Modal'
 
 type Props = {
     group: Group
@@ -15,6 +16,7 @@ type Props = {
 export const GroupCard: Component<Props> = (props) => {
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
+    const [isGroupUpdating, setIsGroupUpdating] = createSignal<boolean>(false)
     const group = props.group
     return (
         <>
@@ -43,6 +45,13 @@ export const GroupCard: Component<Props> = (props) => {
                     />
                 </div>
             </div>
+            <GroupCardUpdateModal
+                group={group}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                isGroupUpdating={isGroupUpdating}
+                setIsGroupUpdating={setIsGroupUpdating}
+            />
         </>
     )
 }
