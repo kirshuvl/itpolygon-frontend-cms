@@ -14,7 +14,7 @@ import type { Group } from '../types/groups'
 import { debugMessage } from '../utils/defugMessage'
 import { useSessionStateContext } from './session'
 
-type CMSContextType = {
+type DashboardContextType = {
     groups: {
         teacherGroups: Resource<Group[] | null>
         actions: {
@@ -31,19 +31,19 @@ type CMSContextType = {
     }
 }
 
-const CMSStateContext = createContext<CMSContextType>()
+const DashboardStateContext = createContext<DashboardContextType>()
 
-export const CMSProvider: ParentComponent = (props) => {
+export const DashboardProvider: ParentComponent = (props) => {
     const { isAuthenticated } = useSessionStateContext()
 
     const [teacherGroups, { mutate: mutateTeacherGroups, refetch: refetchTeacherGroups }] = createResource<
         Group[],
         boolean
-    >(isAuthenticated, apiGroups.getTeacherGroups)
+    >(isAuthenticated, apiGroups.getGroups)
 
     const createTeacherGroup = async ({ title }: { title: string }): Promise<Group> => {
         try {
-            const group = await apiGroups.createTeacherGroup({ title })
+            const group = await apiGroups.createGroup({ title })
             const new_groups = produce(teacherGroups(), (draftState) => {
                 draftState?.push(group)
             })
@@ -60,10 +60,11 @@ export const CMSProvider: ParentComponent = (props) => {
         title,
     }: { groupId: number; title: string }): Promise<Group> => {
         try {
-            const group = await apiGroups.updateTeacherGroup({ groupId, title })
+            const group = await apiGroups.updateGroup({ groupId, title })
             const next_state = produce(teacherGroups(), (draftState) => {
                 const index = draftState?.findIndex((group) => group.id === groupId)
-                if (index !== -1 && index && draftState) {
+
+                if (index !== -1 && index !== undefined && draftState) {
                     draftState[index] = group // Заменяем группу с groupId на новую группу
                 }
             })
@@ -117,16 +118,17 @@ export const CMSProvider: ParentComponent = (props) => {
     }
 
     onMount(() => {
-        debugMessage('[onMount][Provider] CMS')
+        debugMessage('[onMount][Provider] Dashboard')
     })
 
     onCleanup(() => {
-        debugMessage('[onCleanup][Provider] CMS')
+        debugMessage('[onCleanup][Provider] Dashboard')
     })
 
-    return <CMSStateContext.Provider value={value}>{props.children}</CMSStateContext.Provider>
+    return <DashboardStateContext.Provider value={value}>{props.children}</DashboardStateContext.Provider>
 }
 
-export function useCMSStateContext() {
-    return useContext(CMSStateContext)
+export function useDashboardStateContext() {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    return useContext(DashboardStateContext)!
 }
