@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import type { Component } from 'solid-js'
-import styles from './DashboardScreen.module.scss'
+import styles from './Dashboard.Screen.module.scss'
 
 import { TeacherGroupsBlock } from '../../widgets/GroupBlock'
 

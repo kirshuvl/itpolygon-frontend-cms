@@ -1,7 +1,7 @@
 import { Route, Router } from '@solidjs/router'
-import { DashboardScreen } from '../screens/Dashboard/DashboardScreen'
+import { DashboardScreen } from '../screens/Dashboard/Dashboard.Screen'
 import { Error404 } from '../screens/Errors/Error404'
-import { LoginScreen } from '../screens/LoginScreen/LoginScreen'
+import { LoginScreen } from '../screens/LoginScreen/Login.Screen'
 import { AuthLayout } from './layouts/AuthLayout/AuthLayout'
 import { MainLayout } from './layouts/MainLayout/MainLayout'
 

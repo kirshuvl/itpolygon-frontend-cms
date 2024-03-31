@@ -9,7 +9,7 @@ import { type Component, onCleanup, onMount } from 'solid-js'
 import * as yup from 'yup'
 import { useSessionStateContext } from '../../context/session'
 import { debugMessage } from '../../utils/defugMessage'
-import styles from './LoginScreen.module.scss'
+import styles from './Login.Screen.module.scss'
 
 type LoginForm = {
     email: string
