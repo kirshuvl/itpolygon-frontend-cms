@@ -5,6 +5,7 @@ import styles from './TeacherCard.module.scss'
 
 import { ActionButton, IconTrash, IconUser } from 'itpolygon-ui-dev'
 import type { TeacherGroupEnroll } from '../../types/groups'
+import { DeleteTeacherModal } from './ModalDeleteTeacher/DeleteTeacher.Modal'
 
 type Props = {
     enroll: TeacherGroupEnroll
@@ -12,7 +13,7 @@ type Props = {
 
 export const TeacherEnrollCard: Component<Props> = (props) => {
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
-    const [isGroupUpdating, setIsGroupUpdating] = createSignal<boolean>(false)
+    const [isTeacherDeleting, setIsTeacherDeleting] = createSignal<boolean>(false)
     const enroll = props.enroll
     return (
         <>
@@ -52,6 +53,13 @@ export const TeacherEnrollCard: Component<Props> = (props) => {
                     />
                 </div>
             </div>
+            <DeleteTeacherModal
+                enroll={enroll}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                isTeacherDeleting={isTeacherDeleting}
+                setIsTeacherDeleting={setIsTeacherDeleting}
+            />
         </>
     )
 }
