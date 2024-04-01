@@ -20,7 +20,7 @@ export const GroupCard: Component<Props> = (props) => {
     const group = props.group
     return (
         <>
-            <div onClick={() => navigate(`/cms/groups/${group.id}`)} class={clsx(styles.card)}>
+            <div onClick={() => navigate(`/groups/${group.id}`)} class={clsx(styles.card)}>
                 <div class={clsx(styles.icon)}>
                     <Show
                         when={group.icon}
