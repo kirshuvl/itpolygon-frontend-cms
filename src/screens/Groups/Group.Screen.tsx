@@ -1,14 +1,17 @@
-import { type Component, createSignal } from 'solid-js'
+import { type ParentComponent, createSignal } from 'solid-js'
 
+import { useNavigate } from '@solidjs/router'
 import clsx from 'clsx'
 import { Button } from 'itpolygon-ui-dev'
 import { useGroupStateContext } from '../../context/group'
-import { TeachersBlock } from '../../widgets/TeachersBlock/TeachersBlock'
 import styles from './Group.Screen.module.scss'
 
-export const GroupScreen: Component = () => {
-    const [tab, setTab] = createSignal('group')
+export const GroupScreen: ParentComponent = (props) => {
+    const navigate = useNavigate()
+
     const { group } = useGroupStateContext()
+
+    const [tab, setTab] = createSignal('group')
     return (
         <>
             <div class={clsx(styles.buttons)}>
@@ -16,13 +19,19 @@ export const GroupScreen: Component = () => {
                     value="Группа"
                     size="F"
                     outline={tab() !== 'group'}
-                    onClick={() => setTab('group')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/`)
+                        setTab('group')
+                    }}
                 />
                 <Button
                     value="Ученики"
                     size="F"
                     outline={tab() !== 'students'}
-                    onClick={() => setTab('students')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/students`)
+                        setTab('students')
+                    }}
                 />
                 <Button
                     value="Курсы"
@@ -49,18 +58,7 @@ export const GroupScreen: Component = () => {
                     onClick={() => setTab('homeworks')}
                 />
             </div>
-            <div class={clsx(styles.dashboard)}>
-                <div class={clsx(styles.column, styles.left)}>
-                    <div class={clsx(styles.card)}>
-                        <div class={clsx(styles.skeleton)}>Временный блок</div>
-                    </div>
-                </div>
-                <div class={clsx(styles.column, styles.right)}>
-                    <div class={clsx(styles.card)}>
-                        <TeachersBlock />
-                    </div>
-                </div>
-            </div>
+            {props.children}
         </>
     )
 }
