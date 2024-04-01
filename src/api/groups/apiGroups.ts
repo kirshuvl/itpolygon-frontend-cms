@@ -54,4 +54,14 @@ export const apiGroups = {
             throw error
         }
     },
+    getGroup: async ({ id }: { id: string }): Promise<Group> => {
+        try {
+            const response = await axiosPrivate.get(`/api/v1/cms/groups/${id}`)
+
+            return response.data
+        } catch (error) {
+            debugMessage(`[getGroup] ${error}`)
+            throw error
+        }
+    }
 }
