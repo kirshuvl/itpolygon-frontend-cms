@@ -1,1 +1,0 @@
-export { TeacherGroupsBlock } from "./GroupsBlock";

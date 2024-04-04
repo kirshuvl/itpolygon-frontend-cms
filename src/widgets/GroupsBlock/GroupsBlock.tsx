@@ -7,7 +7,7 @@ import { GroupCard, GroupCardSkeleton } from '../../components/GroupCard'
 import { useDashboardStateContext } from '../../context/dashboard'
 import { GroupCardCreateModal } from './ModalCreateGroup/GroupCreate.Modal'
 
-export const TeacherGroupsBlock: Component = () => {
+export const GroupsBlock: Component = () => {
     const {
         groups: { teacherGroups },
     } = useDashboardStateContext()
