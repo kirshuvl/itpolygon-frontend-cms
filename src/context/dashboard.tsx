@@ -9,7 +9,9 @@ import {
     onMount,
     useContext,
 } from 'solid-js'
+import { apiCourses } from '../api/courses/apiCourses'
 import { apiGroups } from '../api/groups/apiGroups'
+import type { Course } from '../types/courses'
 import type { Group } from '../types/groups'
 import { debugMessage } from '../utils/defugMessage'
 import { useSessionStateContext } from './session'
@@ -29,6 +31,13 @@ type DashboardContextType = {
             }: { groupId: number; enrollId: number }) => Promise<void>
         }
     }
+    courses: {
+        teacherCourses: Resource<Course[] | null>
+        actions: {
+            mutateTeacherCourses: () => Setter<Course[]> | undefined
+            refetchTeacherCourses: () => Course[] | Promise<Course[] | undefined> | null | undefined
+        }
+    }
 }
 
 const DashboardStateContext = createContext<DashboardContextType>()
@@ -40,6 +49,8 @@ export const DashboardProvider: ParentComponent = (props) => {
         Group[],
         boolean
     >(isAuthenticated, apiGroups.getGroups)
+    const [teacherCourses, { mutate: mutateTeacherCourses, refetch: refetchTeacherCourses }] =
+        createResource<Course[], boolean>(isAuthenticated, apiCourses.getCourses)
 
     const createTeacherGroup = async ({ title }: { title: string }): Promise<Group> => {
         try {
@@ -113,8 +124,17 @@ export const DashboardProvider: ParentComponent = (props) => {
         },
     }
 
+    const courses = {
+        teacherCourses,
+        actions: {
+            mutateTeacherCourses,
+            refetchTeacherCourses,
+        },
+    }
+
     const value = {
         groups,
+        courses,
     }
 
     onMount(() => {
