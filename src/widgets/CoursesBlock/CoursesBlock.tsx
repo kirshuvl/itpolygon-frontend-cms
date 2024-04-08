@@ -6,6 +6,7 @@ import { CourseCard } from '../../components/CourseCard/CourseCard'
 import { CourseCardSkeleton } from '../../components/CourseCard/Skeleton/CourseCard.Skeleton'
 import { EmptyData } from '../../components/EmptyData'
 import { useDashboardStateContext } from '../../context/dashboard'
+import { CourseCreateModal } from './CourseCreateModal/CourseCreate.Modal'
 
 export const CoursesBlock: Component = () => {
     const {
@@ -51,6 +52,12 @@ export const CoursesBlock: Component = () => {
                     <CourseCardSkeleton />
                 </Show>
             </Show>
+            <CourseCreateModal
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                isAddingInProgress={isCourseAdding}
+                setIsAddingInProgress={setIsCourseAdding}
+            />
         </>
     )
 }

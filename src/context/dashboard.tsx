@@ -36,6 +36,7 @@ type DashboardContextType = {
         actions: {
             mutateTeacherCourses: () => Setter<Course[]> | undefined
             refetchTeacherCourses: () => Course[] | Promise<Course[] | undefined> | null | undefined
+            createCourse: ({ title }: { title: string }) => Promise<Course>
         }
     }
 }
@@ -112,6 +113,20 @@ export const DashboardProvider: ParentComponent = (props) => {
         }
     }
 
+    const createCourse = async ({ title }: { title: string }): Promise<Course> => {
+        try {
+            const course = await apiCourses.createCourse({ title })
+            const new_courses = produce(teacherCourses(), (draftState) => {
+                draftState?.push(course)
+            })
+            mutateTeacherCourses(new_courses)
+            return course
+        } catch (error) {
+            debugMessage(`[createCourse] ${error}`)
+            throw error
+        }
+    }
+
     const groups = {
         teacherGroups,
         actions: {
@@ -129,6 +144,7 @@ export const DashboardProvider: ParentComponent = (props) => {
         actions: {
             mutateTeacherCourses,
             refetchTeacherCourses,
+            createCourse,
         },
     }
 
