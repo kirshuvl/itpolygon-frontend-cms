@@ -32,7 +32,7 @@ export const apiGroups = {
     updateGroup: async ({ groupId, title }: { groupId: number; title: string }): Promise<Group> => {
         try {
             const response = await axiosPrivate.patch(
-                `/api/v1/cms/groups/${groupId}`,
+                `/api/v1/cms/groups/${groupId}/`,
                 createFormData({
                     title: title,
                 }),
@@ -46,7 +46,7 @@ export const apiGroups = {
     },
     deleteTeacherFromGroup: async ({ id }: { id: number }): Promise<void> => {
         try {
-            const response = await axiosPrivate.delete(`/api/v1/cms/groups/teachers/${id}`)
+            const response = await axiosPrivate.delete(`/api/v1/cms/groups/teachers/${id}/`)
 
             return response.data
         } catch (error) {
@@ -56,7 +56,7 @@ export const apiGroups = {
     },
     getGroup: async ({ id }: { id: string }): Promise<Group> => {
         try {
-            const response = await axiosPrivate.get(`/api/v1/cms/groups/${id}`)
+            const response = await axiosPrivate.get(`/api/v1/cms/groups/${id}/`)
 
             return response.data
         } catch (error) {
