@@ -5,7 +5,7 @@ import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
 import { EmptyData } from '../../components/EmptyData'
 import { GroupCard, GroupCardSkeleton } from '../../components/GroupCard'
 import { useDashboardStateContext } from '../../context/dashboard'
-import { GroupCardCreateModal } from './ModalCreateGroup/GroupCreate.Modal'
+import { GroupCardCreateModal } from './GroupCreateModal/GroupCreate.Modal'
 
 export const GroupsBlock: Component = () => {
     const {
