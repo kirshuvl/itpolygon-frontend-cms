@@ -1,8 +1,9 @@
-export const createFormData = (data: { [key: string]: string }): FormData => {
-    const formData = new FormData()
-    for (const key in data) {
-        formData.append(key, data[key])
+export const createFormData = (data: { [key: string]: string | File | undefined }): FormData => {
+    const formData = new FormData();
+    const cleanData = Object.fromEntries(Object.entries(data).filter(([_, value]) => value !== undefined));
+    for (const [key, value] of Object.entries(cleanData)) {
+        formData.append(key, value as string | Blob);
     }
 
-    return formData
-}
+    return formData;
+};

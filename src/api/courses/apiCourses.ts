@@ -16,12 +16,13 @@ export const apiCourses = {
             throw error
         }
     },
-    createCourse: async ({ title }: { title: string }): Promise<Course> => {
+    createCourse: async ({ title, icon }: { title: string, icon?: File }): Promise<Course> => {
         try {
             const response = await axiosPrivate.post(
                 '/api/v1/cms/courses/',
                 createFormData({
                     title: title,
+                    icon: icon,
                 }),
             )
 

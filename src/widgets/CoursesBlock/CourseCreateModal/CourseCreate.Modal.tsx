@@ -1,11 +1,13 @@
 import type { Accessor, Component, Setter } from 'solid-js'
 
 import { ActionButton, Button, IconClose, InputField, Modal, TitleBlock } from 'itpolygon-ui-dev'
+import { FileField } from 'itpolygon-ui-dev'
 import { useFormHandler } from 'solid-form-handler'
 import { yupSchema } from 'solid-form-handler/yup'
 import * as yup from 'yup'
 import { useDashboardStateContext } from '../../../context/dashboard'
 import { debugMessage } from '../../../utils/defugMessage'
+
 
 type CourseCreateModalProps = {
     isModalOpen: Accessor<boolean>
@@ -16,10 +18,12 @@ type CourseCreateModalProps = {
 
 type FormSchema = {
     title: string
+    icon: File
 }
 
-const schema: yup.Schema<FormSchema> = yup.object({
+const schema: yup.Schema<FormSchema> = yup.object().shape({
     title: yup.string().required('Введите название курса'),
+    icon: yup.mixed<File>().required()
 })
 
 export const CourseCreateModal: Component<CourseCreateModalProps> = (props) => {
@@ -80,6 +84,7 @@ export const CourseCreateModal: Component<CourseCreateModalProps> = (props) => {
             }
         >
             <InputField name="title" formHandler={formHandler} placeholder="Заголовок курса" />
+            <FileField label="icon" formHandler={formHandler} name="icon" multiple={false} />
         </Modal>
     )
 }

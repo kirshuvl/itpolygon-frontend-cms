@@ -36,7 +36,7 @@ type DashboardContextType = {
         actions: {
             mutateTeacherCourses: () => Setter<Course[]> | undefined
             refetchTeacherCourses: () => Course[] | Promise<Course[] | undefined> | null | undefined
-            createCourse: ({ title }: { title: string }) => Promise<Course>
+            createCourse: ({ title, icon }: { title: string; icon?: File }) => Promise<Course>
         }
     }
 }
@@ -113,9 +113,9 @@ export const DashboardProvider: ParentComponent = (props) => {
         }
     }
 
-    const createCourse = async ({ title }: { title: string }): Promise<Course> => {
+    const createCourse = async ({ title, icon }: { title: string; icon?: File }): Promise<Course> => {
         try {
-            const course = await apiCourses.createCourse({ title })
+            const course = await apiCourses.createCourse({ title, icon })
             const new_courses = produce(teacherCourses(), (draftState) => {
                 draftState?.push(course)
             })
