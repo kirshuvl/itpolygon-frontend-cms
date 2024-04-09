@@ -60,6 +60,7 @@ export const DashboardProvider: ParentComponent = (props) => {
                 draftState?.push(group)
             })
             mutateTeacherGroups(new_groups)
+            refetchTeacherGroups()
             return group
         } catch (error) {
             debugMessage(`[createTeacherGroup] ${error}`)
@@ -81,6 +82,7 @@ export const DashboardProvider: ParentComponent = (props) => {
                 }
             })
             mutateTeacherGroups(next_state)
+            refetchTeacherGroups()
             return group
         } catch (error) {
             debugMessage(`[updateTeacherGroup] ${error}`)

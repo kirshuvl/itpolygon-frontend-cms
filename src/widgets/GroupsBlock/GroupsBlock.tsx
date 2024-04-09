@@ -4,6 +4,7 @@ import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
 
 import { EmptyData } from '../../components/EmptyData'
 import { GroupCard, GroupCardSkeleton } from '../../components/GroupCard'
+import { TeacherCardSkeleton } from '../../components/TeacherCard/Skeleton/TeacherCard.Skeleton'
 import { useDashboardStateContext } from '../../context/dashboard'
 import { GroupCardCreateModal } from './GroupCreateModal/GroupCreate.Modal'
 
@@ -24,32 +25,19 @@ export const GroupsBlock: Component = () => {
                     </>
                 }
             />
-            <Show
-                when={teacherGroups() && !teacherGroups.loading}
-                fallback={
-                    <>
-                        <GroupCardSkeleton />
-                        <GroupCardSkeleton />
-                        <GroupCardSkeleton />
-                    </>
-                }
-            >
-                <Show
-                    when={teacherGroups()?.length !== 0}
-                    fallback={
-                        <Show when={!isGroupAdding()}>
-                            <EmptyData
-                                text="Вы не создали еще ни одной группы"
-                                onClick={() => setIsModalOpen(true)}
-                            />
-                        </Show>
-                    }
-                >
-                    <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>
-                </Show>
-                <Show when={isGroupAdding()}>
-                    <GroupCardSkeleton />
-                </Show>
+            <Show when={!teacherGroups() && teacherGroups.loading}>
+                <TeacherCardSkeleton />
+                <TeacherCardSkeleton />
+                <TeacherCardSkeleton />
+            </Show>
+            <Show when={teacherGroups() && teacherGroups()?.length === 0 && !isGroupAdding()}>
+                <EmptyData text='no groups' />
+            </Show>
+            <Show when={teacherGroups() && teacherGroups()?.length !== 0}>
+                <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>
+            </Show>
+            <Show when={isGroupAdding()}>
+                <GroupCardSkeleton />
             </Show>
             <GroupCardCreateModal
                 isModalOpen={isModalOpen}
@@ -60,3 +48,25 @@ export const GroupsBlock: Component = () => {
         </>
     )
 }
+
+/*
+----------------
+            <Show when={teacherGroups()?.length !== 0 && !teacherGroups.loading} fallback={
+                <Show when={teacherGroups.loading} fallback={<EmptyData text='У вас еще нет групп' />}>
+                    <TeacherCardSkeleton />
+                    <TeacherCardSkeleton />
+                    <TeacherCardSkeleton />
+                </Show>
+            }>
+                <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>
+
+
+            </Show>
+
+            <Show when={isGroupAdding()}>
+                <GroupCardSkeleton />
+            </Show>
+            <Show when={isGroupAdding()}>
+                <GroupCardSkeleton />
+            </Show>
+*/
