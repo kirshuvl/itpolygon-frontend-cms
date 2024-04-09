@@ -14,13 +14,14 @@ interface Student {
 
 export interface TeacherGroupEnroll {
     id: number
+    group: number
     teacher: Teacher
 }
 
 export interface StudentGroupEnroll {
     id: number
     group: number
-    user: Student
+    student: Student
 }
 
 export interface Group {

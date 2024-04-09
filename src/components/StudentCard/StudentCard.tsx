@@ -14,17 +14,17 @@ export const StudentCard: Component<Props> = (props) => {
         <div class={clsx(styles.card)}>
             <div class={clsx(styles.icon)}>
                 <Show
-                    when={props.enroll.user.icon}
-                    fallback={<div class={clsx(styles.title)}>{props.enroll.user.first_name[0]}</div>}
+                    when={props.enroll.student.icon}
+                    fallback={<div class={clsx(styles.title)}>{props.enroll.student.first_name[0]}</div>}
                 >
                     <img
-                        src={props.enroll.user.icon}
-                        alt={`Картинка группы ${props.enroll.user.first_name}`}
+                        src={props.enroll.student.icon}
+                        alt={`Картинка группы ${props.enroll.student.first_name}`}
                     />
                 </Show>
             </div>
             <div class={clsx(styles.content)}>
-                {props.enroll.user.first_name} {props.enroll.user.last_name}
+                {props.enroll.student.first_name} {props.enroll.student.last_name}
             </div>
             <div class={clsx(styles.button)}>
                 <ActionButton
