@@ -8,8 +8,8 @@ import styles from './GroupCard.module.scss'
 import { ActionButton, IconTrash } from 'itpolygon-ui-dev'
 import { IconPencil } from 'itpolygon-ui-dev'
 import { useDashboardStateContext } from '../../context/dashboard'
-import { GroupCardUpdateModal } from './ModalUpdateGroup/GroupCardUpdate.Modal'
 import { GroupCardSkeleton } from './Skeleton/GroupCard.Skeleton'
+import { GroupCardUpdateModal } from './UpdateModal/GroupCardUpdate.Modal'
 
 type Props = {
     group: Group
