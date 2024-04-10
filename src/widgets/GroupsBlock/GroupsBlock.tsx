@@ -1,5 +1,5 @@
 import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
-import { type Component, For, Show, createSignal } from 'solid-js'
+import { type Component, For, Show, createSignal, onMount } from 'solid-js'
 
 import { EmptyData } from '../../components/EmptyData'
 import { GroupCard, GroupCardSkeleton } from '../../components/GroupCard'
@@ -9,11 +9,20 @@ import { useDashboardStateContext } from '../../context/dashboard'
 
 export const GroupsBlock: Component = () => {
     const {
-        groups: { teacherGroups },
+        groups: {
+            teacherGroups,
+            actions: { refetchTeacherGroups },
+        },
     } = useDashboardStateContext()
 
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
     const [isGroupAdding, setIsGroupAdding] = createSignal<boolean>(false)
+
+    onMount(() => {
+        if (teacherGroups() && !teacherGroups.loading) {
+            refetchTeacherGroups()
+        }
+    })
 
     return (
         <>

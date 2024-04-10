@@ -1,4 +1,4 @@
-import { type Component, For, Show, createSignal } from 'solid-js'
+import { type Component, For, Show, createSignal, onMount } from 'solid-js'
 
 import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
 
@@ -10,10 +10,19 @@ import { CourseCreateModal } from './CourseCreateModal/CourseCreate.Modal'
 
 export const CoursesBlock: Component = () => {
     const {
-        courses: { teacherCourses },
+        courses: {
+            teacherCourses,
+            actions: { refetchTeacherCourses },
+        },
     } = useDashboardStateContext()
     const [isCourseAdding, setIsCourseAdding] = createSignal<boolean>(false)
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
+
+    onMount(() => {
+        if (teacherCourses() && !teacherCourses.loading) {
+            refetchTeacherCourses()
+        }
+    })
 
     return (
         <>
