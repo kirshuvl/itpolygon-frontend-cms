@@ -22,7 +22,7 @@ const schema: yup.Schema<FormSchema> = yup.object({
     title: yup.string().required('Введите название группы'),
 })
 
-export const GroupCardUpdateModal: Component<GroupCardModalUpdate> = (props) => {
+export const GroupUpdateModal: Component<GroupCardModalUpdate> = (props) => {
     const formHandler = useFormHandler(yupSchema(schema), {
         delay: 1000,
     })

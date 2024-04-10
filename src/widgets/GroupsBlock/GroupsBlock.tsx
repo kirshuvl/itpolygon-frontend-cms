@@ -21,7 +21,12 @@ export const GroupsBlock: Component = () => {
                 title="Мои группы"
                 buttons={
                     <>
-                        <ActionButton onClick={() => setIsModalOpen(true)} icon={IconPlus} />
+                        <ActionButton
+                            onClick={() => setIsModalOpen(true)}
+                            icon={IconPlus}
+                            iconLoading={IconPlus}
+                            loading={teacherGroups.loading}
+                        />
                     </>
                 }
             />
@@ -31,7 +36,7 @@ export const GroupsBlock: Component = () => {
                 <TeacherCardSkeleton />
             </Show>
             <Show when={teacherGroups() && teacherGroups()?.length === 0 && !isGroupAdding()}>
-                <EmptyData text='no groups' />
+                <EmptyData text="no groups" />
             </Show>
             <Show when={teacherGroups() && teacherGroups()?.length !== 0}>
                 <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>

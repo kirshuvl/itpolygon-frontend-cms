@@ -7,28 +7,27 @@ import styles from './GroupCard.module.scss'
 
 import { ActionButton, IconTrash } from 'itpolygon-ui-dev'
 import { IconPencil } from 'itpolygon-ui-dev'
-import { useDashboardStateContext } from '../../context/dashboard'
+import { GroupDeleteModal } from './Modals/Delete.Modal'
+import { GroupUpdateModal } from './Modals/Update.Modal'
 import { GroupCardSkeleton } from './Skeleton/GroupCard.Skeleton'
-import { GroupCardUpdateModal } from './UpdateModal/GroupCardUpdate.Modal'
 
 type Props = {
     group: Group
 }
 
 export const GroupCard: Component<Props> = (props) => {
-    const navigate = useNavigate()
-    const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
-    const [isGroupUpdating, setIsGroupUpdating] = createSignal<boolean>(false)
     const group = props.group
+    const navigate = useNavigate()
 
-    const {
-        groups: {
-            actions: { deleteTeacherGroup },
-        },
-    } = useDashboardStateContext()
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = createSignal<boolean>(false)
+    const [isGroupUpdating, setIsGroupUpdating] = createSignal<boolean>(false)
+
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = createSignal<boolean>(false)
+    const [isGroupDeleting, setIsGroupDeleting] = createSignal<boolean>(false)
+
     return (
         <>
-            <Show when={!isGroupUpdating()} fallback={<GroupCardSkeleton />}>
+            <Show when={!(isGroupUpdating() || isGroupDeleting())} fallback={<GroupCardSkeleton />}>
                 <div onClick={() => navigate(`/groups/${group.id}/`)} class={clsx(styles.card)}>
                     <div class={clsx(styles.icon)}>
                         <Show
@@ -49,28 +48,33 @@ export const GroupCard: Component<Props> = (props) => {
                             variant="primary"
                             onClick={(event) => {
                                 event.stopPropagation()
-                                setIsModalOpen(true)
+                                setIsUpdateModalOpen(true)
                             }}
                         />
                         <ActionButton
                             icon={IconTrash}
                             variant="danger"
                             onClick={(event) => {
-                                event.stopPropagation();
-                                deleteTeacherGroup(
-                                    { groupId: group.id }
-                                )
+                                event.stopPropagation()
+                                setIsDeleteModalOpen(true)
                             }}
                         />
                     </div>
                 </div>
             </Show>
-            <GroupCardUpdateModal
+            <GroupUpdateModal
                 group={group}
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
+                isModalOpen={isUpdateModalOpen}
+                setIsModalOpen={setIsUpdateModalOpen}
                 isGroupUpdating={isGroupUpdating}
                 setIsGroupUpdating={setIsGroupUpdating}
+            />
+            <GroupDeleteModal
+                group={group}
+                isModalOpen={isDeleteModalOpen}
+                setIsModalOpen={setIsDeleteModalOpen}
+                isGroupDeleting={isGroupDeleting}
+                setIsGroupDeleting={setIsGroupDeleting}
             />
         </>
     )
