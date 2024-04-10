@@ -5,8 +5,9 @@ import { type Component, Show, createSignal } from 'solid-js'
 import type { Group } from '../../types/groups'
 import styles from './GroupCard.module.scss'
 
-import { ActionButton } from 'itpolygon-ui-dev'
+import { ActionButton, IconTrash } from 'itpolygon-ui-dev'
 import { IconPencil } from 'itpolygon-ui-dev'
+import { useDashboardStateContext } from '../../context/dashboard'
 import { GroupCardUpdateModal } from './ModalUpdateGroup/GroupCardUpdate.Modal'
 import { GroupCardSkeleton } from './Skeleton/GroupCard.Skeleton'
 
@@ -19,6 +20,12 @@ export const GroupCard: Component<Props> = (props) => {
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
     const [isGroupUpdating, setIsGroupUpdating] = createSignal<boolean>(false)
     const group = props.group
+
+    const {
+        groups: {
+            actions: { deleteTeacherGroup },
+        },
+    } = useDashboardStateContext()
     return (
         <>
             <Show when={!isGroupUpdating()} fallback={<GroupCardSkeleton />}>
@@ -43,6 +50,16 @@ export const GroupCard: Component<Props> = (props) => {
                             onClick={(event) => {
                                 event.stopPropagation()
                                 setIsModalOpen(true)
+                            }}
+                        />
+                        <ActionButton
+                            icon={IconTrash}
+                            variant="danger"
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                deleteTeacherGroup(
+                                    { groupId: group.id }
+                                )
                             }}
                         />
                     </div>

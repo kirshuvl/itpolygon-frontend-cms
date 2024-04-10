@@ -25,6 +25,7 @@ type DashboardContextType = {
             createTeacherGroup: ({ title }: { title: string }) => Promise<Group>
             updateTeacherGroup: ({ groupId, title }: { groupId: number; title: string }) => Promise<Group>
             getTeacherGroup: ({ id }: { id: number }) => Group | undefined
+            deleteTeacherGroup: ({ groupId }: { groupId: number }) => Promise<void>
             deleteTeacherFromGroup: ({
                 groupId,
                 enrollId,
@@ -94,6 +95,22 @@ export const DashboardProvider: ParentComponent = (props) => {
         return teacherGroups()?.find((group) => group.id === id)
     }
 
+    const deleteTeacherGroup = async ({ groupId }: { groupId: number }): Promise<void> => {
+        try {
+            const group = await apiGroups.deleteGroup({ groupId: groupId })
+            const next_state = produce(teacherGroups(), (draftState) => {
+                const filteredGroups = draftState?.filter((group) => group.id !== groupId)
+                return filteredGroups
+            })
+            mutateTeacherGroups(next_state)
+            return group
+
+        } catch (error) {
+            debugMessage(`[deleteTeacherGroup] ${error}`)
+            throw error
+        }
+    }
+
     const deleteTeacherFromGroup = async ({
         groupId,
         enrollId,
@@ -137,6 +154,7 @@ export const DashboardProvider: ParentComponent = (props) => {
             createTeacherGroup,
             updateTeacherGroup,
             getTeacherGroup,
+            deleteTeacherGroup,
             deleteTeacherFromGroup,
         },
     }

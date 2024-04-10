@@ -16,7 +16,6 @@
         }
 
         .button {
-            display: block;
             opacity: 1;
             visibility: visible;
             transition:
@@ -63,6 +62,8 @@
     }
 
     .button {
+        display: flex;
+        gap: 0.25rem;
         align-self: center;
         opacity: 0;
         visibility: hidden;
