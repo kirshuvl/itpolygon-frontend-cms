@@ -1,19 +1,19 @@
-import { type Component, For, Show, createSignal } from 'solid-js'
-
 import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
+import { type Component, For, Show, createSignal } from 'solid-js'
 
 import { EmptyData } from '../../components/EmptyData'
 import { GroupCard, GroupCardSkeleton } from '../../components/GroupCard'
+import { GroupCreateModal } from '../../components/GroupCard/Modals/Create.Modal'
 import { TeacherCardSkeleton } from '../../components/TeacherCard/Skeleton/TeacherCard.Skeleton'
 import { useDashboardStateContext } from '../../context/dashboard'
-import { GroupCardCreateModal } from './GroupCreateModal/GroupCreate.Modal'
 
 export const GroupsBlock: Component = () => {
     const {
         groups: { teacherGroups },
     } = useDashboardStateContext()
-    const [isGroupAdding, setIsGroupAdding] = createSignal<boolean>(false)
+
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
+    const [isGroupAdding, setIsGroupAdding] = createSignal<boolean>(false)
 
     return (
         <>
@@ -44,7 +44,7 @@ export const GroupsBlock: Component = () => {
             <Show when={isGroupAdding()}>
                 <GroupCardSkeleton />
             </Show>
-            <GroupCardCreateModal
+            <GroupCreateModal
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
                 isGroupAdding={isGroupAdding}
@@ -53,25 +53,3 @@ export const GroupsBlock: Component = () => {
         </>
     )
 }
-
-/*
-----------------
-            <Show when={teacherGroups()?.length !== 0 && !teacherGroups.loading} fallback={
-                <Show when={teacherGroups.loading} fallback={<EmptyData text='У вас еще нет групп' />}>
-                    <TeacherCardSkeleton />
-                    <TeacherCardSkeleton />
-                    <TeacherCardSkeleton />
-                </Show>
-            }>
-                <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>
-
-
-            </Show>
-
-            <Show when={isGroupAdding()}>
-                <GroupCardSkeleton />
-            </Show>
-            <Show when={isGroupAdding()}>
-                <GroupCardSkeleton />
-            </Show>
-*/

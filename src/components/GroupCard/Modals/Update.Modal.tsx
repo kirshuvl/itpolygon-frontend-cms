@@ -1,12 +1,15 @@
-import { ActionButton, Button, IconClose, InputField, Modal, TitleBlock } from 'itpolygon-ui-dev'
-import { useFormHandler } from 'solid-form-handler'
-import { yupSchema } from 'solid-form-handler/yup'
+import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import type { Accessor, Component, Setter } from 'solid-js'
-import * as yup from 'yup'
 import { useDashboardStateContext } from '../../../context/dashboard'
 import type { Group } from '../../../types/groups'
 import { debugMessage } from '../../../utils/defugMessage'
-type GroupCardModalUpdate = {
+
+import { InputField } from 'itpolygon-ui-dev'
+import { useFormHandler } from 'solid-form-handler'
+import { yupSchema } from 'solid-form-handler/yup'
+import * as yup from 'yup'
+
+type Props = {
     group: Group
     isModalOpen: Accessor<boolean>
     setIsModalOpen: Setter<boolean>
@@ -22,16 +25,16 @@ const schema: yup.Schema<FormSchema> = yup.object({
     title: yup.string().required('Введите название группы'),
 })
 
-export const GroupUpdateModal: Component<GroupCardModalUpdate> = (props) => {
-    const formHandler = useFormHandler(yupSchema(schema), {
-        delay: 1000,
-    })
-
+export const GroupUpdateModal: Component<Props> = (props) => {
     const {
         groups: {
             actions: { updateTeacherGroup },
         },
     } = useDashboardStateContext()
+
+    const formHandler = useFormHandler(yupSchema(schema), {
+        delay: 1000,
+    })
 
     const submit = async () => {
         try {

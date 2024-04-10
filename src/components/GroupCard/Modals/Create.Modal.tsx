@@ -1,15 +1,14 @@
+import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import type { Accessor, Component, Setter } from 'solid-js'
+import { useDashboardStateContext } from '../../../context/dashboard'
+import { debugMessage } from '../../../utils/defugMessage'
 
+import { InputField } from 'itpolygon-ui-dev'
 import { useFormHandler } from 'solid-form-handler'
 import { yupSchema } from 'solid-form-handler/yup'
 import * as yup from 'yup'
 
-import { ActionButton, Button, IconClose, InputField, Modal, TitleBlock } from 'itpolygon-ui-dev'
-
-import { useDashboardStateContext } from '../../../context/dashboard'
-import { debugMessage } from '../../../utils/defugMessage'
-
-type GroupCardModalUpdate = {
+type Props = {
     isModalOpen: Accessor<boolean>
     setIsModalOpen: Setter<boolean>
     isGroupAdding: Accessor<boolean>
@@ -24,7 +23,7 @@ const schema: yup.Schema<FormSchema> = yup.object({
     title: yup.string().required('Введите название группы'),
 })
 
-export const GroupCardCreateModal: Component<GroupCardModalUpdate> = (props) => {
+export const GroupCreateModal: Component<Props> = (props) => {
     const formHandler = useFormHandler(yupSchema(schema), {
         delay: 1000,
     })
