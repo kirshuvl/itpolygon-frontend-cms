@@ -30,6 +30,7 @@ type DashboardContextType = {
                 groupId,
                 enrollId,
             }: { groupId: number; enrollId: number }) => Promise<void>
+            updateGroups: ({ group }: { group: Group | undefined }) => void
         }
     }
     courses: {
@@ -104,7 +105,6 @@ export const DashboardProvider: ParentComponent = (props) => {
             })
             mutateTeacherGroups(next_state)
             return group
-
         } catch (error) {
             debugMessage(`[deleteTeacherGroup] ${error}`)
             throw error
@@ -146,6 +146,19 @@ export const DashboardProvider: ParentComponent = (props) => {
         }
     }
 
+    const updateGroups = ({ group }: { group: Group | undefined }) => {
+        if (!group) {
+            return
+        }
+        const nextState = produce(teacherGroups(), (draftState) => {
+            const groupIndex = draftState?.findIndex((g) => g.id === group.id)
+            if (draftState && groupIndex !== undefined && groupIndex !== -1) {
+                draftState[groupIndex] = group
+            }
+        })
+        mutateTeacherGroups(nextState)
+    }
+
     const groups = {
         teacherGroups,
         actions: {
@@ -156,6 +169,7 @@ export const DashboardProvider: ParentComponent = (props) => {
             getTeacherGroup,
             deleteTeacherGroup,
             deleteTeacherFromGroup,
+            updateGroups,
         },
     }
 

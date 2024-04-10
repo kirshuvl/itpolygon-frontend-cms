@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { debugDelay } from '../utils/debugDelay'
 import {
     type Tokens,
     apiSession,
@@ -25,7 +24,6 @@ axiosPrivate.interceptors.request.use(
     async (config) => {
         let accessToken = getAccessToken()
         const refreshToken = getRefreshToken() ?? false
-        await debugDelay()
 
         if (accessToken && apiSession.isTokenNeedUpdate(accessToken)) {
             if (!refreshTokenPromise && refreshToken) {

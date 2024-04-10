@@ -4,11 +4,13 @@ import {
     type Resource,
     type Setter,
     createContext,
+    createEffect,
     createResource,
     useContext,
 } from 'solid-js'
 import { apiGroups } from '../api/groups/apiGroups'
 import type { Group } from '../types/groups'
+import { useDashboardStateContext } from './dashboard'
 
 type GroupContext = {
     group: Resource<Group | null>
@@ -26,6 +28,15 @@ export const GroupProvider: ParentComponent = (props) => {
         { id: groupId },
         apiGroups.getGroup,
     )
+    const {
+        groups: {
+            actions: { updateGroups },
+        },
+    } = useDashboardStateContext()
+
+    createEffect(() => {
+        updateGroups({ group: group() })
+    })
 
     const value = {
         group,
