@@ -1,4 +1,5 @@
 import { Route, Router } from '@solidjs/router'
+import { CourseScreen } from '../screens/Course/Course.Screen'
 import { DashboardScreen } from '../screens/Dashboard/Dashboard.Screen'
 import { Error404 } from '../screens/Errors/Error404'
 import { GroupScreen } from '../screens/Group/Group.Screen'
@@ -24,6 +25,7 @@ export const AppRouters = () => {
                             <Route path="/students" component={GroupStudentsScreen} />
                         </Route>
                     </Route>
+                    <Route path="/course/:courseId/" component={CourseScreen} />
                     <Route path="*404" component={Error404} />
                 </Route>
             </Router>
