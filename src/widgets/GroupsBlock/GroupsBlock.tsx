@@ -45,7 +45,7 @@ export const GroupsBlock: Component = () => {
                 <TeacherCardSkeleton />
             </Show>
             <Show when={teacherGroups() && teacherGroups()?.length === 0 && !isGroupAdding()}>
-                <EmptyData text="no groups" />
+                <EmptyData text="Вы еще не создали ни одной группы" />
             </Show>
             <Show when={teacherGroups() && teacherGroups()?.length !== 0}>
                 <For each={teacherGroups()}>{(group) => <GroupCard group={group} />}</For>
@@ -56,8 +56,8 @@ export const GroupsBlock: Component = () => {
             <GroupCreateModal
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
-                isGroupAdding={isGroupAdding}
-                setIsGroupAdding={setIsGroupAdding}
+                isAddingInProgress={isGroupAdding}
+                setIsAddingInProgress={setIsGroupAdding}
             />
         </>
     )

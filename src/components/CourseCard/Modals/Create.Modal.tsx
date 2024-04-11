@@ -1,15 +1,15 @@
 import type { Accessor, Component, Setter } from 'solid-js'
 
-import { ActionButton, Button, IconClose, InputField, Modal, TitleBlock } from 'itpolygon-ui-dev'
-import { FileField } from 'itpolygon-ui-dev'
-import { useFormHandler } from 'solid-form-handler'
-import { yupSchema } from 'solid-form-handler/yup'
-import * as yup from 'yup'
+import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import { useDashboardStateContext } from '../../../context/dashboard'
 import { debugMessage } from '../../../utils/defugMessage'
 
+import { FileField, InputField } from 'itpolygon-ui-dev'
+import { useFormHandler } from 'solid-form-handler'
+import { yupSchema } from 'solid-form-handler/yup'
+import * as yup from 'yup'
 
-type CourseCreateModalProps = {
+type Props = {
     isModalOpen: Accessor<boolean>
     setIsModalOpen: Setter<boolean>
     isAddingInProgress: Accessor<boolean>
@@ -23,10 +23,10 @@ type FormSchema = {
 
 const schema: yup.Schema<FormSchema> = yup.object().shape({
     title: yup.string().required('Введите название курса'),
-    icon: yup.mixed<File>().required()
+    icon: yup.mixed<File>().required(),
 })
 
-export const CourseCreateModal: Component<CourseCreateModalProps> = (props) => {
+export const CourseCreateModal: Component<Props> = (props) => {
     const formHandler = useFormHandler(yupSchema(schema), {
         delay: 1000,
     })

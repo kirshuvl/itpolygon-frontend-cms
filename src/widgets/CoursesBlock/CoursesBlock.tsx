@@ -1,12 +1,11 @@
+import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
 import { type Component, For, Show, createSignal, onMount } from 'solid-js'
 
-import { ActionButton, IconPlus, TitleBlock } from 'itpolygon-ui-dev'
-
 import { CourseCard } from '../../components/CourseCard/CourseCard'
+import { CourseCreateModal } from '../../components/CourseCard/Modals/Create.Modal'
 import { CourseCardSkeleton } from '../../components/CourseCard/Skeleton/CourseCard.Skeleton'
 import { EmptyData } from '../../components/EmptyData'
 import { useDashboardStateContext } from '../../context/dashboard'
-import { CourseCreateModal } from './CourseCreateModal/CourseCreate.Modal'
 
 export const CoursesBlock: Component = () => {
     const {
@@ -15,6 +14,7 @@ export const CoursesBlock: Component = () => {
             actions: { refetchTeacherCourses },
         },
     } = useDashboardStateContext()
+
     const [isCourseAdding, setIsCourseAdding] = createSignal<boolean>(false)
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
 
@@ -30,36 +30,28 @@ export const CoursesBlock: Component = () => {
                 title="Мои курсы"
                 buttons={
                     <>
-                        <ActionButton onClick={() => setIsModalOpen(true)} icon={IconPlus} />
+                        <ActionButton
+                            onClick={() => setIsModalOpen(true)}
+                            icon={IconPlus}
+                            iconLoading={IconPlus}
+                            loading={teacherCourses.loading}
+                        />
                     </>
                 }
             />
-            <Show
-                when={teacherCourses() && !teacherCourses.loading}
-                fallback={
-                    <>
-                        <CourseCardSkeleton />
-                        <CourseCardSkeleton />
-                        <CourseCardSkeleton />
-                    </>
-                }
-            >
-                <Show
-                    when={teacherCourses()?.length !== 0}
-                    fallback={
-                        <Show when={!isCourseAdding()}>
-                            <EmptyData
-                                text="Вы не создали еще ни одного курса"
-                                onClick={() => setIsModalOpen(true)}
-                            />
-                        </Show>
-                    }
-                >
-                    <For each={teacherCourses()}>{(course) => <CourseCard course={course} />}</For>
-                </Show>
-                <Show when={isCourseAdding()}>
-                    <CourseCardSkeleton />
-                </Show>
+            <Show when={!teacherCourses() && teacherCourses.loading}>
+                <CourseCardSkeleton />
+                <CourseCardSkeleton />
+                <CourseCardSkeleton />
+            </Show>
+            <Show when={teacherCourses() && teacherCourses()?.length === 0 && !isCourseAdding()}>
+                <EmptyData text="Вы еще не создали ни одной группы" />
+            </Show>
+            <Show when={teacherCourses() && teacherCourses()?.length !== 0}>
+                <For each={teacherCourses()}>{(course) => <CourseCard course={course} />}</For>
+            </Show>
+            <Show when={isCourseAdding()}>
+                <CourseCardSkeleton />
             </Show>
             <CourseCreateModal
                 isModalOpen={isModalOpen}

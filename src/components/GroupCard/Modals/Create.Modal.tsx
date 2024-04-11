@@ -1,5 +1,6 @@
-import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import type { Accessor, Component, Setter } from 'solid-js'
+
+import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import { useDashboardStateContext } from '../../../context/dashboard'
 import { debugMessage } from '../../../utils/defugMessage'
 
@@ -11,8 +12,8 @@ import * as yup from 'yup'
 type Props = {
     isModalOpen: Accessor<boolean>
     setIsModalOpen: Setter<boolean>
-    isGroupAdding: Accessor<boolean>
-    setIsGroupAdding: Setter<boolean>
+    isAddingInProgress: Accessor<boolean>
+    setIsAddingInProgress: Setter<boolean>
 }
 
 type FormSchema = {
@@ -37,14 +38,14 @@ export const GroupCreateModal: Component<Props> = (props) => {
 
     const submit = async () => {
         try {
-            props.setIsGroupAdding(true)
+            props.setIsAddingInProgress(true)
             await formHandler.validateForm()
             await createTeacherGroup(formData())
             formHandler.resetForm()
         } catch (error) {
             debugMessage(`[buttonClick] ${error}`)
         } finally {
-            props.setIsGroupAdding(false)
+            props.setIsAddingInProgress(false)
             props.setIsModalOpen(false)
         }
     }
@@ -73,9 +74,9 @@ export const GroupCreateModal: Component<Props> = (props) => {
                 <>
                     <Button
                         onClick={() => submit()}
-                        value={props.isGroupAdding() ? 'Создаем...' : 'Создать'}
+                        value={props.isAddingInProgress() ? 'Создаем...' : 'Создать'}
                         size="F"
-                        loading={props.isGroupAdding()}
+                        loading={props.isAddingInProgress()}
                         disabled={formHandler.isFormInvalid()}
                     />
                     <Button value="Отмена" size="F" onClick={closeModal} variant="secondary" outline />
