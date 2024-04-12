@@ -1,4 +1,4 @@
-import type { Group } from '../../types/groups'
+import type { Group, Teacher, TeacherGroupEnroll } from '../../types/groups'
 import { createFormData } from '../../utils/createFormData'
 import { debugMessage } from '../../utils/defugMessage'
 import { axiosPrivate } from '../api'
@@ -59,8 +59,7 @@ export const apiGroups = {
             const response = await axiosPrivate.delete(`/api/v1/cms/groups/${groupId}/`)
 
             return response.data
-        }
-        catch (error) {
+        } catch (error) {
             debugMessage(`[updateTeacherGroup] ${error}`)
             throw error
         }
@@ -69,6 +68,36 @@ export const apiGroups = {
         try {
             const response = await axiosPrivate.delete(`/api/v1/cms/groups/teachers/${id}/`)
 
+            return response.data
+        } catch (error) {
+            debugMessage(`[deleteTeacherFromGroup] ${error}`)
+            throw error
+        }
+    },
+    getPotentialTeachers: async ({ groupId }: { groupId: number | undefined }): Promise<Teacher[]> => {
+        // TODO: chck undefind
+        try {
+            const response = await axiosPrivate.get(`/api/v1/cms/groups/${groupId}/teachers/`)
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            debugMessage(`[deleteTeacherFromGroup] ${error}`)
+            throw error
+        }
+    },
+    createTeacherEnroll: async ({
+        groupId,
+        teacherId,
+    }: { groupId: number | undefined; teacherId: number }): Promise<TeacherGroupEnroll> => {
+        try {
+            const response = await axiosPrivate.post(
+                '/api/v1/cms/groups/enrolls/teachers/',
+                createFormData({
+                    group: groupId,
+                    teacher: teacherId,
+                }),
+            )
+            console.log(response.data)
             return response.data
         } catch (error) {
             debugMessage(`[deleteTeacherFromGroup] ${error}`)
