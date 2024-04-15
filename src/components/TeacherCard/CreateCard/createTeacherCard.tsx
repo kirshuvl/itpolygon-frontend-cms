@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { ActionButton, IconPlus } from 'itpolygon-ui-dev'
 import { type Component, Show, createSignal } from 'solid-js'
 import { useGroupStateContext } from '../../../context/group'
-import type { Teacher } from '../../../types/groups'
+import type { Teacher, TeacherGroupEnroll } from '../../../types/groups'
 import styles from './createTeacherCard.module.scss'
 type Props = {
     user: Teacher
@@ -11,15 +11,21 @@ type Props = {
 export const CreateTeacherCard: Component<Props> = (props) => {
     const [isEnroll, setIsEnroll] = createSignal(false)
     const user = props.user
+    const [enrollId, setEnrollId] = createSignal<TeacherGroupEnroll>()
 
     const {
-        actions: { createTeacherEnroll },
+        actions: { createTeacherEnroll, deleteTeacherEnroll },
     } = useGroupStateContext()
 
     const createEnrollTeacher = async () => {
-        await createTeacherEnroll({ teacherId: user.id })
-
+        const enro = await createTeacherEnroll({ teacherId: user.id })
+        setEnrollId(enro)
         setIsEnroll(true)
+    }
+
+    const deleteTeacherEnrolllocal = async () => {
+        await deleteTeacherEnroll({ teacherEnrollId: enrollId()?.id })
+        setIsEnroll(false)
     }
 
     return (
@@ -41,13 +47,7 @@ export const CreateTeacherCard: Component<Props> = (props) => {
                 <Show
                     when={!isEnroll()}
                     fallback={
-                        <ActionButton
-                            icon={IconPlus}
-                            variant="danger"
-                            onClick={() => {
-                                setIsEnroll(false)
-                            }}
-                        />
+                        <ActionButton icon={IconPlus} variant="danger" onClick={deleteTeacherEnrolllocal} />
                     }
                 >
                     <ActionButton icon={IconPlus} variant="primary" onClick={createEnrollTeacher} />

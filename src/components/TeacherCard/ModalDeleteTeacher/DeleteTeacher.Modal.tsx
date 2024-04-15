@@ -1,5 +1,6 @@
 import { ActionButton, Button, IconClose, Modal, TitleBlock } from 'itpolygon-ui-dev'
 import type { Accessor, Component, Setter } from 'solid-js'
+import { useGroupStateContext } from '../../../context/group'
 import type { TeacherGroupEnroll } from '../../../types/groups'
 
 type DeleteTeacherModalProps = {
@@ -15,6 +16,9 @@ export const DeleteTeacherModal: Component<DeleteTeacherModalProps> = (props) =>
         props.setIsModalOpen(false)
     }
 
+    const {
+        actions: { deleteTeacherEnroll },
+    } = useGroupStateContext()
     return (
         <Modal
             isModalOpen={props.isModalOpen}
@@ -35,6 +39,7 @@ export const DeleteTeacherModal: Component<DeleteTeacherModalProps> = (props) =>
                         value={props.isTeacherDeleting() ? 'Сохраняем...' : 'Удалить'}
                         size="F"
                         variant="danger"
+                        onClick={() => deleteTeacherEnroll({ teacherEnrollId: props.enroll.id })}
                     />
                     <Button value="Отмена" size="F" onClick={closeModal} variant="secondary" outline />
                 </>

@@ -21,6 +21,7 @@ type GroupContext = {
         mutateGroup: Setter<Group | undefined>
         refetchGroup: (info?: unknown) => Group | Promise<Group | undefined> | null | undefined
         createTeacherEnroll: ({ teacherId }: { teacherId: number }) => Promise<TeacherGroupEnroll>
+        deleteTeacherEnroll: ({ teacherEnrollId }: { teacherEnrollId: number }) => Promise<void>
     }
 }
 
@@ -62,12 +63,33 @@ export const GroupProvider: ParentComponent = (props) => {
         }
     }
 
+    const deleteTeacherEnroll = async ({ teacherEnrollId }: { teacherEnrollId: number }): Promise<void> => {
+        try {
+            const enroll = await apiGroups.deleteTeacherEnroll({ id: teacherEnrollId })
+
+            const nextState = produce(group(), (draftState) => {
+                if (draftState) {
+                    draftState.teacherEnrolls = draftState?.teacherEnrolls.filter(
+                        (enroll) => enroll.id !== teacherEnrollId,
+                    )
+                }
+            })
+            mutateGroup(nextState)
+
+            return enroll
+        } catch (error) {
+            debugMessage(`[createTeacherEnroll] ${error}`)
+            throw error
+        }
+    }
+
     const value = {
         group,
         actions: {
             mutateGroup,
             refetchGroup,
             createTeacherEnroll,
+            deleteTeacherEnroll,
         },
     }
     return <GroupStateContext.Provider value={value}>{props.children}</GroupStateContext.Provider>

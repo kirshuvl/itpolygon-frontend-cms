@@ -17,6 +17,7 @@ export const TeacherEnrollCard: Component<Props> = (props) => {
     const [isModalInfoOpen, setIsModalInfoOpen] = createSignal<boolean>(false)
     const [isTeacherDeleting, setIsTeacherDeleting] = createSignal<boolean>(false)
     const enroll = props.enroll
+
     return (
         <>
             <div class={clsx(styles.card)}>

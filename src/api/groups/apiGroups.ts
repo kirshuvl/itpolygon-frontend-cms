@@ -66,7 +66,7 @@ export const apiGroups = {
     },
     deleteTeacherEnroll: async ({ id }: { id: number }): Promise<void> => {
         try {
-            const response = await axiosPrivate.delete(`/api/v1/cms/groups/teachers/${id}/`)
+            const response = await axiosPrivate.delete(`api/v1/cms/groups/enrolls/teachers/${id}/`)
 
             return response.data
         } catch (error) {
