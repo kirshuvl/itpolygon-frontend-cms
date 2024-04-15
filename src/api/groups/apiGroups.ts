@@ -64,21 +64,10 @@ export const apiGroups = {
             throw error
         }
     },
-    deleteTeacherFromGroup: async ({ id }: { id: number }): Promise<void> => {
+    deleteTeacherEnroll: async ({ id }: { id: number }): Promise<void> => {
         try {
             const response = await axiosPrivate.delete(`/api/v1/cms/groups/teachers/${id}/`)
 
-            return response.data
-        } catch (error) {
-            debugMessage(`[deleteTeacherFromGroup] ${error}`)
-            throw error
-        }
-    },
-    getPotentialTeachers: async ({ groupId }: { groupId: number | undefined }): Promise<Teacher[]> => {
-        // TODO: chck undefind
-        try {
-            const response = await axiosPrivate.get(`/api/v1/cms/groups/${groupId}/teachers/`)
-            console.log(response.data)
             return response.data
         } catch (error) {
             debugMessage(`[deleteTeacherFromGroup] ${error}`)
@@ -97,6 +86,17 @@ export const apiGroups = {
                     teacher: teacherId,
                 }),
             )
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            debugMessage(`[deleteTeacherFromGroup] ${error}`)
+            throw error
+        }
+    },
+    getPotentialTeachers: async ({ groupId }: { groupId: number | undefined }): Promise<Teacher[]> => {
+        // TODO: chck undefind
+        try {
+            const response = await axiosPrivate.get(`/api/v1/cms/groups/${groupId}/teachers/`)
             console.log(response.data)
             return response.data
         } catch (error) {

@@ -116,7 +116,7 @@ export const DashboardProvider: ParentComponent = (props) => {
         enrollId,
     }: { groupId: number; enrollId: number }): Promise<void> => {
         try {
-            const enroll = await apiGroups.deleteTeacherFromGroup({ id: enrollId })
+            const enroll = await apiGroups.deleteTeacherEnroll({ id: enrollId })
             const next_state = produce(teacherGroups(), (draftState) => {
                 const group = draftState?.find((group) => group.id === groupId)
                 if (group) {
