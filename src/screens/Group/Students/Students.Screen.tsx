@@ -3,7 +3,7 @@ import { type Component, For, Show } from 'solid-js'
 import clsx from 'clsx'
 import { StudentCard } from '../../../components/StudentCard/StudentCard'
 import { useGroupStateContext } from '../../../context/group'
-import styles from './GroupStudents.module.scss'
+import styles from './Students.Screen.module.scss'
 
 export const GroupStudentsScreen: Component = () => {
     const { group } = useGroupStateContext()

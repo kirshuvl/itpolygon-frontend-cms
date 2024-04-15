@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 import type { Component } from 'solid-js'
 import { TeachersBlock } from '../../../widgets/TeachersBlock/TeachersBlock'
-import styles from './GroupMain.module.scss'
+import styles from './Main.Screen.module.scss'
 
-export const GroupMain: Component = () => {
+export const GroupMainScreen: Component = () => {
     return (
         <div class={clsx(styles.dashboard)}>
             <div class={clsx(styles.column, styles.left)}>

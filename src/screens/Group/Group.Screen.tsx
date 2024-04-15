@@ -1,61 +1,79 @@
-import { type ParentComponent, createSignal } from 'solid-js'
+import type { ParentComponent } from 'solid-js'
 
-import { useNavigate } from '@solidjs/router'
+import { useLocation, useNavigate } from '@solidjs/router'
 import clsx from 'clsx'
 import { Button } from 'itpolygon-ui-dev'
 import { useGroupStateContext } from '../../context/group'
 import styles from './Group.Screen.module.scss'
 
-export const GroupScreen: ParentComponent = (props) => {
+export const GroupScreenWrapper: ParentComponent = (props) => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const { group } = useGroupStateContext()
 
-    const [tab, setTab] = createSignal('group')
+    const isTabActive = (tabName: string) => {
+        const currentPath = location.pathname
+        // Проверяем, содержит ли текущий путь ожидаемое значение tabName
+        return currentPath.includes(tabName)
+    }
+
     return (
         <>
             <div class={clsx(styles.buttons)}>
                 <Button
                     value="Группа"
                     size="F"
-                    outline={tab() !== 'group'}
+                    outline={
+                        isTabActive('students') ||
+                        isTabActive('courses') ||
+                        isTabActive('teachers') ||
+                        isTabActive('lessons') ||
+                        isTabActive('homeworks')
+                    }
                     onClick={() => {
                         navigate(`/groups/${group()?.id}/`)
-                        setTab('group')
                     }}
                 />
                 <Button
                     value="Ученики"
                     size="F"
-                    outline={tab() !== 'students'}
+                    outline={!isTabActive('students')}
                     onClick={() => {
                         navigate(`/groups/${group()?.id}/students`)
-                        setTab('students')
                     }}
                 />
                 <Button
                     value="Курсы"
                     size="F"
-                    outline={tab() !== 'courses'}
-                    onClick={() => setTab('courses')}
+                    outline={!isTabActive('courses')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/courses`)
+                    }}
                 />
                 <Button
                     value="Преподаватели"
                     size="F"
-                    outline={tab() !== 'teachers'}
-                    onClick={() => setTab('teachers')}
+                    outline={!isTabActive('teachers')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/teachers`)
+                    }}
                 />
                 <Button
                     value="Занятия"
                     size="F"
-                    outline={tab() !== 'lessons'}
-                    onClick={() => setTab('lessons')}
+                    outline={!isTabActive('lessons')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/lessons`)
+                    }}
                 />
                 <Button
                     value="Домашние задания"
                     size="F"
-                    outline={tab() !== 'homeworks'}
-                    onClick={() => setTab('homeworks')}
+                    outline={!isTabActive('homeworks')}
+                    onClick={() => {
+                        navigate(`/groups/${group()?.id}/homeworks`)
+                    }}
                 />
             </div>
             {props.children}

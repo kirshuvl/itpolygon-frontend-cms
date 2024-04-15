@@ -1,0 +1,7 @@
+export { GroupScreenWrapper } from './Group.Screen'
+export { GroupStudentsScreen } from './Students/Students.Screen'
+export { GroupCoursesScreen } from './Courses/Courses.Screen'
+export { GroupTeachersScreen } from './Teachers/Teachers.Screen'
+export { GroupLessonsScreen } from './Lessons/Lessons.Screen'
+export { GroupHomeworksScreen } from './Homeworks/Homeworks.Screen'
+export { GroupMainScreen } from './Main/Main.Screen'
