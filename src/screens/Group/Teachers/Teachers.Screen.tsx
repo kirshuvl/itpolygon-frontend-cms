@@ -11,8 +11,10 @@ import styles from './Teachers.Screen.module.scss'
 
 export const GroupTeachersScreen: Component = () => {
     const { group } = useGroupStateContext()
+
     const [isTeacherAdding, setIsTeacherAdding] = createSignal<boolean>(false)
     const [isModalOpen, setIsModalOpen] = createSignal<boolean>(false)
+
     return (
         <>
             <div class={clsx(styles.content)}>

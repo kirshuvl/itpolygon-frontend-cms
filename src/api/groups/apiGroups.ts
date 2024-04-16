@@ -94,11 +94,10 @@ export const apiGroups = {
             throw error
         }
     },
-    getPotentialTeachers: async ({ groupId }: { groupId: number | undefined }): Promise<Teacher[]> => {
-        // TODO: chck undefind
+    getPotentialTeachers: async ({ groupId }: { groupId: number }): Promise<Teacher[]> => {
         try {
             const response = await axiosPrivate.get(`/api/v1/cms/groups/${groupId}/teachers/`)
-            console.log(response.data)
+
             return response.data
         } catch (error) {
             debugMessage(`[deleteTeacherFromGroup] ${error}`)

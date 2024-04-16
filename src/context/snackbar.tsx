@@ -39,8 +39,6 @@ export const SnackbarProvider: ParentComponent = (props) => {
     })
 
     const createToast = (toast: Toast) => {
-        console.log(JSON.stringify(toast))
-
         setToasts([
             ...toasts,
             {
