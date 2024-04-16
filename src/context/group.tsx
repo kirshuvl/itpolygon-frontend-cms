@@ -14,12 +14,13 @@ import type { Group } from '../types/groups'
 import type { TeacherGroupEnroll } from '../types/groups'
 import { debugMessage } from '../utils/defugMessage'
 import { useDashboardStateContext } from './dashboard'
+import { useSnackbarStateContext } from './snackbar'
 
 type GroupContext = {
     group: Resource<Group | null>
     actions: {
         mutateGroup: Setter<Group | undefined>
-        refetchGroup: (info?: unknown) => Group | Promise<Group | undefined> | null | undefined
+        refetchGroup: () => Group | Promise<Group | undefined> | null | undefined
         createTeacherEnroll: ({ teacherId }: { teacherId: number }) => Promise<TeacherGroupEnroll>
         deleteTeacherEnroll: ({ teacherEnrollId }: { teacherEnrollId: number }) => Promise<void>
     }
@@ -29,15 +30,21 @@ const GroupStateContext = createContext<GroupContext>()
 
 export const GroupProvider: ParentComponent = (props) => {
     const { groupId } = useParams<{ groupId: string }>()
+
     const [group, { mutate: mutateGroup, refetch: refetchGroup }] = createResource<Group, { id: string }>(
         { id: groupId },
         apiGroups.getGroup,
     )
+
     const {
         groups: {
             actions: { updateGroups },
         },
     } = useDashboardStateContext()
+
+    const {
+        actions: { createToast },
+    } = useSnackbarStateContext()
 
     createEffect(() => {
         updateGroups({ group: group() })
@@ -47,10 +54,17 @@ export const GroupProvider: ParentComponent = (props) => {
         teacherId,
     }: { teacherId: number }): Promise<TeacherGroupEnroll> => {
         try {
+            const groupId = group()?.id
+            if (groupId === undefined) {
+                createToast({ title: 'Group ID is undefined', type: 'error' })
+                throw new Error('Group ID is undefined')
+            }
+
             const enroll = await apiGroups.createTeacherEnroll({
-                groupId: group()?.id,
+                groupId: groupId,
                 teacherId: teacherId,
             })
+
             const nextState = produce(group(), (draftState) => {
                 draftState?.teacherEnrolls.push(enroll)
             })
@@ -65,7 +79,7 @@ export const GroupProvider: ParentComponent = (props) => {
 
     const deleteTeacherEnroll = async ({ teacherEnrollId }: { teacherEnrollId: number }): Promise<void> => {
         try {
-            const enroll = await apiGroups.deleteTeacherEnroll({ id: teacherEnrollId })
+            const enroll = await apiGroups.deleteTeacherEnroll({ teacherEnrollId: teacherEnrollId })
 
             const nextState = produce(group(), (draftState) => {
                 if (draftState) {
@@ -78,7 +92,7 @@ export const GroupProvider: ParentComponent = (props) => {
 
             return enroll
         } catch (error) {
-            debugMessage(`[createTeacherEnroll] ${error}`)
+            debugMessage(`[deleteTeacherEnroll] ${error}`)
             throw error
         }
     }
@@ -99,15 +113,3 @@ export function useGroupStateContext() {
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
     return useContext(GroupStateContext)!
 }
-
-/*
-const next_state = produce(teacherGroups(), (draftState) => {
-                const index = draftState?.findIndex((group) => group.id === groupId)
-
-                if (index !== -1 && index !== undefined && draftState) {
-                    draftState[index] = group // Заменяем группу с groupId на новую группу
-                }
-            })
-            mutateTeacherGroups(next_state)
-            refetchTeacherGroups()
-            */

@@ -64,9 +64,11 @@ export const apiGroups = {
             throw error
         }
     },
-    deleteTeacherEnroll: async ({ id }: { id: number }): Promise<void> => {
+    deleteTeacherEnroll: async ({ teacherEnrollId }: { teacherEnrollId: number }): Promise<void> => {
         try {
-            const response = await axiosPrivate.delete(`api/v1/cms/groups/enrolls/teachers/${id}/`)
+            const response = await axiosPrivate.delete(
+                `api/v1/cms/groups/enrolls/teachers/${teacherEnrollId}/`,
+            )
 
             return response.data
         } catch (error) {
@@ -77,7 +79,7 @@ export const apiGroups = {
     createTeacherEnroll: async ({
         groupId,
         teacherId,
-    }: { groupId: number | undefined; teacherId: number }): Promise<TeacherGroupEnroll> => {
+    }: { groupId: number; teacherId: number }): Promise<TeacherGroupEnroll> => {
         try {
             const response = await axiosPrivate.post(
                 '/api/v1/cms/groups/enrolls/teachers/',
@@ -86,7 +88,6 @@ export const apiGroups = {
                     teacher: teacherId,
                 }),
             )
-            console.log(response.data)
             return response.data
         } catch (error) {
             debugMessage(`[deleteTeacherFromGroup] ${error}`)
