@@ -1,6 +1,6 @@
-DC = docker-compose -p frontend-cms
+DC = docker-compose -p itpolygon-frontend-cms
 SOLIDJS_FILE = docker/solidjs.yaml
-SOLIDJS_CONTAINER = frontend-cms
+SOLIDJS_CONTAINER = cms
 
 EXEC = docker exec -it
 LOGS = docker logs
