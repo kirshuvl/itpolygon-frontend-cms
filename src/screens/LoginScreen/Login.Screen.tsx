@@ -23,7 +23,7 @@ export const userSchema: yup.Schema<LoginForm> = yup.object({
 
 export const LoginScreen: Component = () => {
     const formHandler = useFormHandler(yupSchema(userSchema))
-
+    const { formData } = formHandler
     const {
         actions: { signIn },
     } = useSessionStateContext()
@@ -36,7 +36,7 @@ export const LoginScreen: Component = () => {
     })
 
     const submit = async () => {
-        await signIn({ email: 'admin@admin.com', password: 'admin' })
+        await signIn({ email: formData().email.toString(), password: formData().password.toString() })
     }
 
     return (

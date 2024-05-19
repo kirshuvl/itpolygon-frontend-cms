@@ -6,7 +6,7 @@ import { axiosPrivate } from '../api'
 export const apiGroups = {
     getGroups: async (): Promise<Group[]> => {
         try {
-            const response = await axiosPrivate.get('/api/v1/cms/groups/')
+            const response = await axiosPrivate.get('/cms/groups/')
 
             return response.data
         } catch (error) {
@@ -17,7 +17,7 @@ export const apiGroups = {
     createGroup: async ({ title }: { title: string }): Promise<Group> => {
         try {
             const response = await axiosPrivate.post(
-                '/api/v1/cms/groups/',
+                'cms/groups/',
                 createFormData({
                     title: title,
                 }),
@@ -31,7 +31,7 @@ export const apiGroups = {
     },
     getGroup: async ({ id }: { id: string }): Promise<Group> => {
         try {
-            const response = await axiosPrivate.get(`/api/v1/cms/groups/${id}/`)
+            const response = await axiosPrivate.get(`/cms/groups/${id}/`)
 
             return response.data
         } catch (error) {
@@ -42,7 +42,7 @@ export const apiGroups = {
     updateGroup: async ({ groupId, title }: { groupId: number; title: string }): Promise<Group> => {
         try {
             const response = await axiosPrivate.patch(
-                `/api/v1/cms/groups/${groupId}/`,
+                `cms/groups/${groupId}/`,
                 createFormData({
                     title: title,
                 }),
@@ -56,7 +56,7 @@ export const apiGroups = {
     },
     deleteGroup: async ({ groupId }: { groupId: number }): Promise<void> => {
         try {
-            const response = await axiosPrivate.delete(`/api/v1/cms/groups/${groupId}/`)
+            const response = await axiosPrivate.delete(`cms/groups/${groupId}/`)
 
             return response.data
         } catch (error) {
@@ -66,9 +66,7 @@ export const apiGroups = {
     },
     deleteTeacherEnroll: async ({ teacherEnrollId }: { teacherEnrollId: number }): Promise<void> => {
         try {
-            const response = await axiosPrivate.delete(
-                `api/v1/cms/groups/enrolls/teachers/${teacherEnrollId}/`,
-            )
+            const response = await axiosPrivate.delete(`cms/groups/enrolls/teachers/${teacherEnrollId}/`)
 
             return response.data
         } catch (error) {
@@ -82,7 +80,7 @@ export const apiGroups = {
     }: { groupId: number; teacherId: number }): Promise<TeacherGroupEnroll> => {
         try {
             const response = await axiosPrivate.post(
-                '/api/v1/cms/groups/enrolls/teachers/',
+                'cms/groups/enrolls/teachers/',
                 createFormData({
                     group: groupId,
                     teacher: teacherId,
@@ -96,7 +94,7 @@ export const apiGroups = {
     },
     getPotentialTeachers: async ({ groupId }: { groupId: number }): Promise<Teacher[]> => {
         try {
-            const response = await axiosPrivate.get(`/api/v1/cms/groups/${groupId}/teachers/`)
+            const response = await axiosPrivate.get(`cms/groups/${groupId}/teachers/`)
 
             return response.data
         } catch (error) {

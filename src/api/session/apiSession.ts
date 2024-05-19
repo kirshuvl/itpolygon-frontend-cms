@@ -61,7 +61,7 @@ export const apiSession = {
     getTokens: async ({ email, password }: { email: string; password: string }): Promise<Tokens> => {
         try {
             const response = await axiosCommon.post(
-                'api/v1/token/get/',
+                'auth/token/get/',
                 createFormData({
                     email: email,
                     password: password,
@@ -77,7 +77,7 @@ export const apiSession = {
     refreshToken: async ({ refreshToken }: { refreshToken: string }): Promise<Tokens> => {
         try {
             const response = await axiosCommon.post(
-                'api/v1/token/refresh/',
+                'auth/token/refresh/',
                 createFormData({
                     refresh: refreshToken,
                 }),
